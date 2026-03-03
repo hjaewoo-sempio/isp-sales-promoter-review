@@ -1,0 +1,5 @@
+{
+  "name": "AI판매 스킬 분석기",
+  "description": "오디오/비디오 파일을 분석하여 판매 스킬에 대한 AI 기반 피드백을 제공하고, 결과를 Google Sheets에 저장합니다.",
+  "requestFramePermissions": []
+}

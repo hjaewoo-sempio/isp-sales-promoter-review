@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 판매 스킬 분석</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.sh/@google/genai@^1.14.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div id="app">
+        <!-- API Key Modal -->
+        <div id="api-key-modal">
+            <div class="modal-content card">
+                <h2>Gemini API 키 설정</h2>
+                <p>분석 기능을 사용하려면 Gemini API 키가 필요합니다. <a href="https://aistudio.google.com/app/apikey" target="_blank">Google AI Studio</a>에서 API 키를 발급받아 아래에 입력해주세요.</p>
+                <input type="password" id="api-key-input" placeholder="여기에 API 키를 붙여넣으세요">
+                <button id="save-api-key-button">API 키 저장</button>
+                <p id="api-key-error" class="error hidden"></p>
+            </div>
+        </div>
+
+        <!-- Main App Content (Initially Hidden) -->
+        <div id="main-content" class="hidden">
+            <header>
+                <h1>AI 판매 스킬 분석 및 피드백</h1>
+                <p>오디오 또는 비디오 파일을 업로드하여 판매 스킬을 분석 받아보세요.</p>
+            </header>
+
+            <main>
+                <div id="upload-container" class="card">
+                    <h2>분석할 파일 업로드</h2>
+                    <div id="config-error" class="error hidden"></div>
+                    <label for="file-upload" class="file-upload-label">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+                        <span>파일 선택</span>
+                    </label>
+                    <input type="file" id="file-upload" accept="audio/*,video/*" hidden>
+                    <p id="file-name" class="file-name"></p>
+                    <button id="analyze-button" disabled>분석 시작</button>
+                </div>
+
+                <div id="loading-container" class="hidden">
+                    <div class="spinner"></div>
+                    <p id="loading-text">AI가 분석 중입니다. 잠시만 기다려주세요...</p>
+                </div>
+
+                <div id="result-container" class="card hidden">
+                    <h2>분석 결과</h2>
+                    
+                    <div id="error-message" class="error hidden"></div>
+
+                    <div class="result-meta">
+                        <p><strong>파일명:</strong> <span id="result-file-name"></span></p>
+                        <p><strong>총점:</strong> <span id="total-score"></span> / 100</p>
+                    </div>
+
+                    <div class="collapsible">
+                        <button class="collapsible-header">
+                            <h3>음성 인식 변환 결과 (스크립트)</h3>
+                            <span class="toggle-icon">+</span>
+                        </button>
+                        <div class="collapsible-content">
+                            <p id="transcription-text"></p>
+                        </div>
+                    </div>
+
+                    <div id="evaluation-details"></div>
+                    
+                    <div class="summary-section">
+                        <h3>총평</h3>
+                        <p id="summary-text"></p>
+                    </div>
+
+                    <div id="save-section" class="hidden">
+                        <h3>결과 저장</h3>
+                        <div class="input-group">
+                            <input type="text" id="manager-name" placeholder="매니저명을 입력하세요">
+                            <input type="text" id="employee-name" placeholder="사원명을 입력하세요">
+                        </div>
+                        <button id="save-button">Google Sheets에 저장</button>
+                        <p id="save-status"></p>
+                    </div>
+
+                    <div id="reset-section" class="hidden">
+                        <button id="reset-button" class="secondary">새로 분석하기</button>
+                    </div>
+                </div>
+            </main>
+
+            <footer>
+                <p>Powered by Google Gemini</p>
+            </footer>
+        </div>
+    </div>
+    <script type="module" src="index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
